@@ -1,0 +1,56 @@
+{
+  "type": "record",
+  "name": "RideMatch",
+  "namespace": "io.confluent.developer.drift.schema.ride",
+  "doc": "Represents a match between ride request and vehicle",
+  "fields": [
+    {
+      "name": "matchId",
+      "type": "string",
+      "doc": "Unique match identifier"
+    },
+    {
+      "name": "requestId",
+      "type": "string",
+      "doc": "Reference to ride request"
+    },
+    {
+      "name": "vehicleId",
+      "type": "string",
+      "doc": "Matched vehicle identifier"
+    },
+    {
+      "name": "estimatedPickupTime",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Estimated time when vehicle will arrive at pickup location"
+    },
+    {
+      "name": "distanceToPickup",
+      "type": "double",
+      "doc": "Distance to pickup location in meters"
+    },
+    {
+      "name": "status",
+      "type": {
+        "type": "enum",
+        "name": "MatchStatus",
+        "symbols": [
+          "PROPOSED",
+          "ACCEPTED",
+          "REJECTED",
+          "EXPIRED"
+        ]
+      }
+    },
+    {
+      "name": "createdAt",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    }
+  ]
+}

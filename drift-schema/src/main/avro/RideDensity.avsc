@@ -1,0 +1,45 @@
+{
+  "type": "record",
+  "name": "VehicleDensity",
+  "namespace": "io.confluent.developer.drift.schema.analytics",
+  "doc": "Vehicle density metrics for a geographic area",
+  "fields": [
+    {
+      "name": "geohash",
+      "type": "string",
+      "doc": "Geohash of the area"
+    },
+    {
+      "name": "totalVehicles",
+      "type": "int",
+      "doc": "Total number of vehicles in area"
+    },
+    {
+      "name": "availableVehicles",
+      "type": "int",
+      "doc": "Number of available vehicles"
+    },
+    {
+      "name": "autonomousCount",
+      "type": "int",
+      "doc": "Number of autonomous vehicles"
+    },
+    {
+      "name": "humanDriverCount",
+      "type": "int",
+      "doc": "Number of human drivers"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "windowDuration",
+      "type": "long",
+      "doc": "Duration of the aggregation window in milliseconds"
+    }
+  ]
+}

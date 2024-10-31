@@ -2,6 +2,7 @@ package io.confluent.developer.drift.schema
 
 import io.confluent.developer.drift.schema.common.Position
 import io.confluent.developer.drift.schema.vehicle.Vehicle
+import io.confluent.developer.drift.schema.vehicle.VehiclePosition
 import io.confluent.developer.drift.schema.vehicle.VehicleStatus
 import io.confluent.developer.drift.schema.vehicle.VehicleType
 import org.apache.avro.io.DecoderFactory
@@ -63,6 +64,15 @@ object TestUtils {
                     ByteArrayInputStream(byteArrayOutputStream.toByteArray()), null
                 )
                 return SpecificDatumReader(Vehicle::class.java).read(null, decoder)
+            }
+
+            is VehiclePosition -> {
+                SpecificDatumWriter(VehiclePosition::class.java).write(obj, encoder)
+                encoder.flush()
+                val decoder = DecoderFactory.get().binaryDecoder(
+                    ByteArrayInputStream(byteArrayOutputStream.toByteArray()), null
+                )
+                return SpecificDatumReader(VehiclePosition::class.java).read(null, decoder)
             }
             // Add other types as needed
             else -> throw IllegalArgumentException("Unsupported type: ${obj.javaClass}")

@@ -1,0 +1,80 @@
+= DRIFT: Data Rides In Flink sTreams
+Viktor Gamov <viktor@confluent.io>
+v1.0, 2024-10-30
+:toc:
+:imagesdir: assets/images
+:homepage: http://asciidoctor.org
+
+== Core Topics and Schemas
+
+.Vehicle Positions Topic
+----
+Topic: drift.vehicle.positions
+Key: vehicleId (String)
+Value Schema: io.confluent.developer.drift.schema.vehicle.VehiclePosition
+Retention: 1 hour
+Partitions: 12-24 (high throughput)
+Compaction: true
+----
+
+.Ride Requests Topic
+----
+Topic: drift.ride.requests
+Key: requestId (String)
+Value Schema: io.confluent.developer.drift.schema.ride.RideRequest
+Retention: 24 hours
+Partitions: 6-12
+Compaction: true
+----
+
+.Ride Matches Topic
+----
+Topic: drift.ride.matches
+Key: matchId (String)
+Value Schema: io.confluent.developer.drift.schema.ride.RideMatch
+Retention: 24 hours
+Partitions: 6-12
+Compaction: true
+----
+
+.Ride Statuses Topic
+----
+Topic: drift.ride.status
+Key: rideId (String)
+Value Schema: io.confluent.developer.drift.schema.ride.RideStatus
+Retention: 24 hours
+Partitions: 6-12
+Compaction: true
+----
+
+== Analytics Topics and Schemas
+
+.Vehicle Density Topic
+----
+Topic: drift.analytics.vehicle.density
+Key: geohash (String)
+Value Schema: io.confluent.developer.drift.schema.analytics.VehicleDensity
+Retention: 1 hour
+Partitions: 6
+----
+
+.Matching Metrics Topic
+----
+Topic: drift.analytics.matching.metrics
+Key: timeWindow (String)
+Value Schema: io.confluent.developer.drift.schema.analytics.MatchingMetrics
+Retention: 24 hours
+Partitions: 6
+----
+
+== System Topics
+
+. Dead Letter Queue Topics
+
+----
+Topics:
+* drift.dlq.vehicle.positions
+* drift.dlq.ride.requests
+* drift.dlq.ride.matches
+Value Schema: io.confluent.developer.drift.schema.system.DeadLetterRecord
+----

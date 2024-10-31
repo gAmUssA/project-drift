@@ -1,0 +1,86 @@
+# Topic configuration templates in YAML format for easy deployment
+
+kafka_topics:
+  # Core operational topics
+  - name: "drift.vehicle.positions"
+    config:
+      partitions: 24
+      replication_factor: 3
+      configs:
+        cleanup.policy: "compact"
+        min.insync.replicas: 2
+        retention.ms: 3600000  # 1 hour
+        retention.bytes: -1
+        segment.bytes: 1073741824  # 1GB
+        segment.ms: 900000  # 15 minutes
+        message.timestamp.type: "CreateTime"
+        max.message.bytes: 1000012  # ~1MB
+
+  - name: "drift.ride.requests"
+    config:
+      partitions: 12
+      replication_factor: 3
+      configs:
+        cleanup.policy: "compact"
+        min.insync.replicas: 2
+        retention.ms: 86400000  # 24 hours
+        retention.bytes: -1
+        segment.bytes: 536870912  # 512MB
+        segment.ms: 1800000  # 30 minutes
+        message.timestamp.type: "CreateTime"
+        max.message.bytes: 1000012
+
+  - name: "drift.ride.matches"
+    config:
+      partitions: 12
+      replication_factor: 3
+      configs:
+        cleanup.policy: "compact"
+        min.insync.replicas: 2
+        retention.ms: 86400000  # 24 hours
+        retention.bytes: -1
+        segment.bytes: 536870912
+        segment.ms: 1800000
+        message.timestamp.type: "CreateTime"
+        max.message.bytes: 1000012
+
+  # Analytics topics
+  - name: "drift.analytics.vehicle.density"
+    config:
+      partitions: 6
+      replication_factor: 3
+      configs:
+        cleanup.policy: "delete"
+        retention.ms: 3600000  # 1 hour
+        retention.bytes: -1
+        segment.bytes: 268435456  # 256MB
+        segment.ms: 900000  # 15 minutes
+        message.timestamp.type: "CreateTime"
+        max.message.bytes: 1000012
+
+  - name: "drift.analytics.matching.metrics"
+    config:
+      partitions: 6
+      replication_factor: 3
+      configs:
+        cleanup.policy: "delete"
+        retention.ms: 86400000  # 24 hours
+        retention.bytes: -1
+        segment.bytes: 268435456
+        segment.ms: 1800000
+        message.timestamp.type: "CreateTime"
+        max.message.bytes: 1000012
+
+  # Dead Letter Queue topics
+  - name: "drift.dlq.vehicle.positions"
+    config:
+      partitions: 6
+      replication_factor: 3
+      configs:
+        cleanup.policy: "delete"
+        retention.ms: 604800000  # 7 days
+        retention.bytes: -1
+        segment.bytes: 268435456
+        segment.ms: 3600000  # 1 hour
+        message.timestamp.type: "CreateTime"
+        max.message.bytes: 1000012

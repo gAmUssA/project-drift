@@ -1,0 +1,57 @@
+{
+  "type": "record",
+  "name": "RideStatus",
+  "namespace": "io.confluent.developer.drift.schema.ride",
+  "doc": "Current status of an ongoing ride",
+  "fields": [
+    {
+      "name": "rideId",
+      "type": "string"
+    },
+    {
+      "name": "requestId",
+      "type": "string"
+    },
+    {
+      "name": "vehicleId",
+      "type": "string"
+    },
+    {
+      "name": "status",
+      "type": {
+        "type": "enum",
+        "name": "RideState",
+        "symbols": [
+          "CREATED",
+          "DRIVER_ASSIGNED",
+          "DRIVER_EN_ROUTE",
+          "ARRIVED_AT_PICKUP",
+          "RIDE_IN_PROGRESS",
+          "COMPLETED",
+          "CANCELLED"
+        ]
+      }
+    },
+    {
+      "name": "currentLocation",
+      "type": "io.confluent.developer.drift.schema.common.Position"
+    },
+    {
+      "name": "estimatedTimeToDestination",
+      "type": [
+        "null",
+        "long"
+      ],
+      "default": null,
+      "doc": "Estimated time to destination in seconds"
+    },
+    {
+      "name": "updatedAt",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,41 @@
+{
+  "type": "record",
+  "name": "VehiclePosition",
+  "namespace": "io.confluent.developer.drift.schema.vehicle",
+  "doc": "Vehicle position update event",
+  "fields": [
+    {
+      "name": "vehicleId",
+      "type": "string",
+      "doc": "Unique vehicle identifier"
+    },
+    {
+      "name": "position",
+      "type": "io.confluent.developer.drift.schema.common.Position",
+      "doc": "Current vehicle position"
+    },
+    {
+      "name": "vehicleType",
+      "type": "VehicleType",
+      "doc": "Type of vehicle"
+    },
+    {
+      "name": "status",
+      "type": "VehicleStatus",
+      "doc": "Current vehicle status"
+    },
+    {
+      "name": "heading",
+      "type": ["null", "double"],
+      "default": null,
+      "doc": "Vehicle heading in degrees (0-360)"
+    },
+    {
+      "name": "speed",
+      "type": ["null", "double"],
+      "default": null,
+      "doc": "Current speed in meters per second"
+    }
+  ]
+}
+

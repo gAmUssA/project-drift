@@ -1,10 +1,10 @@
-package io.confluent.developer.drift.schema
+package io.confluent.developer.drift.schema.common
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import assertk.assertions.isNull
-import io.confluent.developer.drift.schema.common.Position
+import io.confluent.developer.drift.schema.TestUtils
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import kotlin.test.Test
