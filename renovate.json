@@ -1,0 +1,74 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "maven"
+      ],
+      "matchPaths": [
+        "drift-schema/**"
+      ],
+      "groupName": "gradle dependencies",
+      "labels": [
+        "dependencies",
+        "gradle"
+      ],
+      "commitMessagePrefix": "chore(deps):",
+      "schedule": [
+        "before 10am every monday"
+      ],
+      "separateMinorPatch": true
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPaths": [
+        "**/docker-compose.yml"
+      ],
+      "groupName": "docker dependencies",
+      "labels": [
+        "dependencies",
+        "docker"
+      ],
+      "commitMessagePrefix": "chore(docker):",
+      "schedule": [
+        "before 10am every monday"
+      ]
+    },
+    {
+      "matchPackagePatterns": [
+        "^org\\.junit",
+        "^org\\.mockito",
+        "^org\\.assertj"
+      ],
+      "groupName": "test dependencies",
+      "labels": [
+        "test",
+        "dependencies"
+      ]
+    }
+  ],
+  "platformAutomerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "squash",
+  "assignees": [
+    "gAmUssA"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "schedule": [
+    "before 10am every monday"
+  ],
+  "timezone": "UTC",
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Dependencies Dashboard",
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 4,
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore"
+}
