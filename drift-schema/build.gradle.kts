@@ -5,6 +5,7 @@ plugins {
     id("maven-publish")
     id("idea")
     kotlin("jvm") version "1.9.20"
+    jacoco
 }
 
 group = "io.confluent.developer.drift"
@@ -115,4 +116,17 @@ tasks.named("compileKotlin") {
 
 kotlin {
     jvmToolchain(17)
+}
+
+
+tasks.jacocoTestReport {
+    reports {
+        csv.required.set(true)
+        xml.required.set(true)
+        html.required.set(true)
+    }
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
 }
