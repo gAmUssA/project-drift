@@ -42,11 +42,12 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Build with Gradle
-        run: ./gradlew build
-
-      - name: Run tests with JaCoCo
-        run: ./gradlew test jacocoTestReport
+      - name: Build and Test with Coverage
+        run: |
+          ./gradlew clean test jacocoTestReport
+          echo "Checking JaCoCo report existence..."
+          ls -la build/reports/jacoco/test/
+          cat build/reports/jacoco/test/jacocoTestReport.csv || echo "CSV file not found"
 
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -84,28 +85,27 @@ jobs:
           name: Package
           path: drift-schema/build/libs
 
-      - name: Upload detailed test report
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: |
-            drift-schema/build/reports/tests/
-            drift-schema/build/test-results/
-
       - name: Create Badges Directory
-        run: |
-          mkdir -p .github/badges
+        run: mkdir -p ../.github/badges
 
       - name: Generate JaCoCo Badge
         uses: cicirello/jacoco-badge-generator@v2
         if: always()
         with:
           generate-branches-badge: true
-          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+          jacoco-csv-file: drift-schema/build/reports/jacoco/test/jacocoTestReport.csv
           badges-directory: .github/badges
           coverage-badge-filename: jacoco.svg
           branches-badge-filename: branches.svg
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-reports
+          path: |
+            drift-schema/build/reports/jacoco/
+            .github/badges/
 
       - name: Commit and Push Coverage Badges
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'

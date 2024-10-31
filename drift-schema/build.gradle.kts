@@ -129,4 +129,19 @@ tasks.jacocoTestReport {
 
 tasks.test {
     finalizedBy(tasks.jacocoTestReport)
+
+    // Enable JaCoCo coverage
+    extensions.configure(JacocoTaskExtension::class) {
+        classDumpDir = layout.buildDirectory.dir("jacoco/classpathdumps").get().asFile
+    }
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.5".toBigDecimal()  // 50% coverage minimum
+            }
+        }
+    }
 }
