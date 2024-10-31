@@ -7,7 +7,7 @@ v1.0, 2024-10-30
 :source-highlighter: highlight.js
 :icons: font
 
-image:https://github.com/gAmUssA/project-drift/actions/workflows/gradle.yml/badge.svg[Build Status,link=https://github.com/gAmUssA/project-drift/actions/workflows/gradle.yml]
+image:https://github.com/gAmUssA/project-drift/workflows/Gradle%20Build%20and%20Test/badge.svg[Build Status]
 image:.github/badges/jacoco.svg[Coverage,link=.github/badges/jacoco.svg]
 image:.github/badges/branches.svg[Branches,link=.github/badges/branches.svg]
 image:https://img.shields.io/badge/License-MIT-yellow.svg[License: MIT,link=LICENSE.txt]
