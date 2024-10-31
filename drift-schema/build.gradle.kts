@@ -118,13 +118,13 @@ kotlin {
     jvmToolchain(17)
 }
 
-
 tasks.jacocoTestReport {
     reports {
         csv.required.set(true)
         xml.required.set(true)
         html.required.set(true)
     }
+    dependsOn(tasks.test)
 }
 
 tasks.test {

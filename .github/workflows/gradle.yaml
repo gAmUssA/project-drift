@@ -12,7 +12,6 @@ on:
       - 'drift-schema/**'
       - '.github/workflows/**'
 
-# Add permissions block at workflow level
 permissions:
   checks: write
   pull-requests: write
@@ -28,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch all history for accurate test result comparison
+          fetch-depth: 0
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -46,8 +45,8 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Run tests
-        run: ./gradlew test
+      - name: Run tests with JaCoCo
+        run: ./gradlew test jacocoTestReport
 
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -94,19 +93,30 @@ jobs:
             drift-schema/build/reports/tests/
             drift-schema/build/test-results/
 
+      - name: Create Badges Directory
+        run: |
+          mkdir -p .github/badges
+
       - name: Generate JaCoCo Badge
         uses: cicirello/jacoco-badge-generator@v2
         if: always()
         with:
           generate-branches-badge: true
-          jacoco-csv-file: drift-schema/build/reports/jacoco/test/jacocoTestReport.csv
+          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
           badges-directory: .github/badges
+          coverage-badge-filename: jacoco.svg
+          branches-badge-filename: branches.svg
 
-      - name: Commit and Push JaCoCo coverage badges
+      - name: Commit and Push Coverage Badges
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git add .github/badges/*.svg
-          git commit -m "Update code coverage badges" || echo "No changes to commit"
-          git push
+          cd ..
+          if [ -f .github/badges/jacoco.svg ] && [ -f .github/badges/branches.svg ]; then
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git add .github/badges/jacoco.svg .github/badges/branches.svg
+            git commit -m "Update code coverage badges" || echo "No changes to commit"
+            git push
+          else
+            echo "Coverage badges not found, skipping commit"
+          fi
