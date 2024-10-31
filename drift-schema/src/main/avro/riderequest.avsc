@@ -1,0 +1,41 @@
+{
+  "type": "record",
+  "name": "RideRequest",
+  "namespace": "io.confluent.developer.drift.schema.ride",
+  "doc": "Ride request information",
+  "fields": [
+    {
+      "name": "requestId",
+      "type": "string",
+      "doc": "Unique request identifier"
+    },
+    {
+      "name": "riderId",
+      "type": "string",
+      "doc": "Unique rider identifier"
+    },
+    {
+      "name": "pickupLocation",
+      "type": "io.confluent.developer.drift.schema.common.Position",
+      "doc": "Pickup location"
+    },
+    {
+      "name": "dropoffLocation",
+      "type": "io.confluent.developer.drift.schema.common.Position",
+      "doc": "Dropoff location"
+    },
+    {
+      "name": "preferredVehicleType",
+      "type": "io.confluent.developer.drift.schema.vehicle.VehicleType",
+      "default": "HUMAN_DRIVER"
+    },
+    {
+      "name": "createdAt",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Request creation timestamp"
+    }
+  ]
+}

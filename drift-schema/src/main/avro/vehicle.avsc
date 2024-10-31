@@ -1,0 +1,40 @@
+{
+  "type": "record",
+  "name": "Vehicle",
+  "namespace": "io.confluent.developer.drift.schema.vehicle",
+  "doc": "Vehicle information",
+  "fields": [
+    {
+      "name": "vehicleId",
+      "type": "string",
+      "doc": "Unique vehicle identifier"
+    },
+    {
+      "name": "type",
+      "type": {
+        "type": "enum",
+        "name": "VehicleType",
+        "symbols": [
+          "HUMAN_DRIVER",
+          "AUTONOMOUS"
+        ]
+      }
+    },
+    {
+      "name": "status",
+      "type": {
+        "type": "enum",
+        "name": "VehicleStatus",
+        "symbols": [
+          "AVAILABLE",
+          "BUSY",
+          "OFFLINE"
+        ]
+      }
+    },
+    {
+      "name": "position",
+      "type": "io.confluent.developer.drift.schema.common.Position"
+    }
+  ]
+}

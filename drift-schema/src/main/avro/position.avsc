@@ -1,0 +1,35 @@
+{
+  "type": "record",
+  "name": "Position",
+  "namespace": "io.confluent.developer.drift.schema.common",
+  "doc": "Geographic position with timestamp",
+  "fields": [
+    {
+      "name": "latitude",
+      "type": "double",
+      "doc": "Latitude coordinate"
+    },
+    {
+      "name": "longitude",
+      "type": "double",
+      "doc": "Longitude coordinate"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Position timestamp"
+    },
+    {
+      "name": "accuracy",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Optional accuracy in meters"
+    }
+  ]
+}
