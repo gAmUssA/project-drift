@@ -12,6 +12,12 @@ on:
       - 'drift-schema/**'
       - '.github/workflows/**'
 
+# Add permissions block at workflow level
+permissions:
+  checks: write
+  pull-requests: write
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,6 +27,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for accurate test result comparison
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -55,9 +63,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: |
-            drift-schema/build/test-results/**/*.xml
-            drift-schema/build/test-results/**/*.trx
+          files: "drift-schema/build/test-results/test/*.xml"
           check_name: "Test Results"
           comment_mode: always
           compare_to_earlier_commit: true
