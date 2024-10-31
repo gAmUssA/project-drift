@@ -1,14 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "packageRules": [
     {
       "matchDatasources": [
         "maven"
       ],
-      "matchPaths": [
+      "matchFileNames": [
         "drift-schema/**"
       ],
       "groupName": "gradle dependencies",
@@ -18,7 +18,7 @@
       ],
       "commitMessagePrefix": "chore(deps):",
       "schedule": [
-        "before 10am every monday"
+        "before 10am on monday"
       ],
       "separateMinorPatch": true
     },
@@ -26,7 +26,7 @@
       "matchDatasources": [
         "docker"
       ],
-      "matchPaths": [
+      "matchFileNames": [
         "**/docker-compose.yml"
       ],
       "groupName": "docker dependencies",
@@ -36,19 +36,19 @@
       ],
       "commitMessagePrefix": "chore(docker):",
       "schedule": [
-        "before 10am every monday"
+        "before 10am on monday"
       ]
     },
     {
-      "matchPackagePatterns": [
-        "^org\\.junit",
-        "^org\\.mockito",
-        "^org\\.assertj"
-      ],
       "groupName": "test dependencies",
       "labels": [
         "test",
         "dependencies"
+      ],
+      "matchPackageNames": [
+        "/^org\\.junit/",
+        "/^org\\.mockito/",
+        "/^org\\.assertj/"
       ]
     }
   ],
@@ -62,7 +62,7 @@
     "dependencies"
   ],
   "schedule": [
-    "before 10am every monday"
+    "before 10am on monday"
   ],
   "timezone": "UTC",
   "dependencyDashboard": true,
