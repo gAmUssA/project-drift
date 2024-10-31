@@ -79,7 +79,6 @@ Partitions: 6
 == System Topics
 
 . Dead Letter Queue Topics
-
 ----
 Topics:
 * drift.dlq.vehicle.positions

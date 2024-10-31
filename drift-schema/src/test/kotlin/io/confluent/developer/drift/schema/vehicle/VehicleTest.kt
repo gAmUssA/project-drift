@@ -1,10 +1,8 @@
-package io.confluent.developer.drift.schema
+package io.confluent.developer.drift.schema.vehicle
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.confluent.developer.drift.schema.vehicle.Vehicle
-import io.confluent.developer.drift.schema.vehicle.VehicleStatus
-import io.confluent.developer.drift.schema.vehicle.VehicleType
+import io.confluent.developer.drift.schema.TestUtils
 import kotlin.test.Test
 
 class VehicleTest {
