@@ -50,7 +50,7 @@ jobs:
           cat build/reports/jacoco/test/jacocoTestReport.csv || echo "CSV file not found"
 
       - name: Cache Gradle packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
