@@ -28,7 +28,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.0.21")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("com.willowtreeapps.assertk:assertk:0.28.1")
 }
