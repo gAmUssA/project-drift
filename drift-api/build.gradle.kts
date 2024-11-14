@@ -3,6 +3,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     kotlin("jvm")
     kotlin("plugin.spring")
+    jacoco
 }
 
 group = "io.confluent.developer.drift"
@@ -35,4 +36,31 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    reports {
+        csv.required.set(true)
+        xml.required.set(true)
+        html.required.set(true)
+    }
+    dependsOn(tasks.test)
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+    
+    extensions.configure(JacocoTaskExtension::class) {
+        classDumpDir = layout.buildDirectory.dir("jacoco/classpathdumps").get().asFile
+    }
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.5".toBigDecimal()
+            }
+        }
+    }
 }
