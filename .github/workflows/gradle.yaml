@@ -5,11 +5,13 @@ on:
     branches: [ main, master ]
     paths:
       - 'drift-schema/**'
+      - 'drift-api/**'
       - '.github/workflows/**'
   pull_request:
     branches: [ main, master ]
     paths:
       - 'drift-schema/**'
+      - 'drift-api/**'
       - '.github/workflows/**'
 
 permissions:
@@ -20,103 +22,71 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./drift-schema
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v3
-
-      - name: Build and Test with Coverage
+      - name: Build and Test All Projects
         run: |
+          chmod +x gradlew
           ./gradlew clean test jacocoTestReport
-          echo "Checking JaCoCo report existence..."
-          ls -la build/reports/jacoco/test/
-          cat build/reports/jacoco/test/jacocoTestReport.csv || echo "CSV file not found"
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
+      - name: Generate Schema Coverage Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        if: success()
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          generate-branches-badge: true
+          jacoco-csv-file: drift-schema/build/reports/jacoco/test/jacocoTestReport.csv
+          badges-directory: .github/badges
+          coverage-badge-filename: schema-coverage.svg
+          branches-badge-filename: schema-branches.svg
+
+      - name: Generate API Coverage Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        if: success()
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: drift-api/build/reports/jacoco/test/jacocoTestReport.csv
+          badges-directory: .github/badges
+          coverage-badge-filename: api-coverage.svg
+          branches-badge-filename: api-branches.svg
+
+      - name: Verify Reports
+        run: |
+          echo "Checking JaCoCo reports existence..."
+          echo "Schema reports:"
+          ls -la drift-schema/build/reports/jacoco/test/ || echo "Schema JaCoCo directory not found"
+          echo "API reports:"
+          ls -la drift-api/build/reports/jacoco/test/ || echo "API JaCoCo directory not found"
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: "drift-schema/build/test-results/test/*.xml"
-          check_name: "Test Results"
-          comment_mode: always
-          compare_to_earlier_commit: true
-          report_individual_runs: true
+          files: |
+            drift-schema/build/test-results/test/*.xml
+            drift-api/build/test-results/test/*.xml
 
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Gradle Tests
-          path: drift-schema/build/test-results/test/*.xml
-          reporter: java-junit
-          fail-on-error: false
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        if: success()
-        with:
-          name: Package
-          path: drift-schema/build/libs
-
-      - name: Create Badges Directory
-        run: mkdir -p ../.github/badges
-
-      - name: Generate JaCoCo Badge
-        uses: cicirello/jacoco-badge-generator@v2
-        if: always()
-        with:
-          generate-branches-badge: true
-          jacoco-csv-file: drift-schema/build/reports/jacoco/test/jacocoTestReport.csv
-          badges-directory: .github/badges
-          coverage-badge-filename: jacoco.svg
-          branches-badge-filename: branches.svg
-
-      - name: Upload coverage reports
+      - name: Upload Coverage Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-reports
           path: |
             drift-schema/build/reports/jacoco/
+            drift-api/build/reports/jacoco/
             .github/badges/
 
-      - name: Commit and Push Coverage Badges
+      - name: Update Badges
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         run: |
-          cd ..
-          if [ -f .github/badges/jacoco.svg ] && [ -f .github/badges/branches.svg ]; then
-            git config --global user.name 'github-actions[bot]'
-            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-            git add .github/badges/jacoco.svg .github/badges/branches.svg
-            git commit -m "Update code coverage badges" || echo "No changes to commit"
-            git push
-          else
-            echo "Coverage badges not found, skipping commit"
-          fi
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add .github/badges/*
+          git commit -m "chore: update coverage badges" || echo "No changes to commit"
+          git push || echo "No changes to push"

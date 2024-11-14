@@ -35,6 +35,39 @@ updates:
           - "org.mockito.*"
           - "org.assertj.*"
 
+  - package-ecosystem: "gradle"
+    directory: "/drift-api"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "gradle"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    ignore:
+      # Ignore patch updates for production dependencies
+      - dependency-name: "*"
+        update-types: [ "version-update:semver-patch" ]
+    # Group updates together
+    groups:
+      gradle-test-deps:
+        patterns:
+          - "org.junit.*"
+          - "org.mockito.*"
+          - "org.assertj.*"
+      gradle-production-deps:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "org.junit.*"
+          - "org.mockito.*"
+          - "org.assertj.*"
+
   # Docker dependencies
   - package-ecosystem: "docker"
     directory: "/"

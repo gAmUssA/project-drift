@@ -23,7 +23,7 @@ java {
 }
 
 dependencies {
-    implementation("org.apache.avro:avro:1.12.0")
+    api("org.apache.avro:avro:1.12.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.1")
     implementation(kotlin("stdlib-jdk8"))
 
