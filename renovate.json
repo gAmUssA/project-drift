@@ -9,7 +9,8 @@
         "maven"
       ],
       "matchFileNames": [
-        "drift-schema/**"
+        "drift-schema/**",
+        "drift-api/**"
       ],
       "groupName": "gradle dependencies",
       "labels": [
@@ -49,6 +50,20 @@
         "/^org\\.junit/",
         "/^org\\.mockito/",
         "/^org\\.assertj/"
+      ]
+    },
+    {
+      "matchFileNames": [
+        "drift-api/**"
+      ],
+      "groupName": "spring dependencies",
+      "labels": [
+        "dependencies",
+        "spring"
+      ],
+      "matchPackagePrefixes": [
+        "org.springframework",
+        "io.spring"
       ]
     }
   ],
