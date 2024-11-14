@@ -39,12 +39,15 @@ tasks.withType<Test> {
 }
 
 tasks.jacocoTestReport {
-    reports {
-        csv.required.set(true)
-        xml.required.set(true)
-        html.required.set(true)
-    }
     dependsOn(tasks.test)
+    
+    reports {
+        xml.required.set(true)
+        csv.required.set(true)
+        html.required.set(true)
+        
+        csv.outputLocation.set(layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.csv"))
+    }
 }
 
 tasks.test {

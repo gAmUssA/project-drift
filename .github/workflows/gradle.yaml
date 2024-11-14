@@ -41,7 +41,7 @@ jobs:
 
       - name: Generate Schema Coverage Badge
         uses: cicirello/jacoco-badge-generator@v2
-        if: always()
+        if: success()
         with:
           generate-branches-badge: true
           jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
@@ -68,14 +68,20 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew clean test jacocoTestReport
+          
+      - name: Verify JaCoCo Report
+        run: |
+          echo "Checking JaCoCo report existence..."
+          ls -la build/reports/jacoco/test/ || echo "JaCoCo directory not found"
+          find build/reports/jacoco -type f || echo "No JaCoCo reports found"
 
       - name: Generate API Coverage Badge
         uses: cicirello/jacoco-badge-generator@v2
-        if: always()
+        if: success()
         with:
           generate-branches-badge: true
-          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
-          badges-directory: ../.github/badges
+          jacoco-csv-file: drift-api/build/reports/jacoco/test/jacocoTestReport.csv
+          badges-directory: .github/badges
           coverage-badge-filename: api-coverage.svg
           branches-badge-filename: api-branches.svg
 
@@ -84,8 +90,7 @@ jobs:
         if: always()
         with:
           files: |
-            drift-schema/build/test-results/test/*.xml
-            drift-api/build/test-results/test/*.xml
+            **/build/test-results/test/*.xml
 
       - name: Upload Coverage Reports
         if: always()
@@ -93,6 +98,5 @@ jobs:
         with:
           name: coverage-reports
           path: |
-            drift-schema/build/reports/jacoco/
-            drift-api/build/reports/jacoco/
+            **/build/reports/jacoco/
             .github/badges/
