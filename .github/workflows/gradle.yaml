@@ -39,13 +39,19 @@ jobs:
           chmod +x gradlew
           ./gradlew clean test jacocoTestReport
 
+      - name: Verify Schema JaCoCo Report
+        run: |
+          echo "Checking JaCoCo report existence..."
+          ls -la build/reports/jacoco/test/ || echo "JaCoCo directory not found"
+          find build/reports/jacoco -type f || echo "No JaCoCo reports found"
+
       - name: Generate Schema Coverage Badge
         uses: cicirello/jacoco-badge-generator@v2
         if: success()
         with:
           generate-branches-badge: true
-          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
-          badges-directory: ../.github/badges
+          jacoco-csv-file: drift-schema/build/reports/jacoco/test/jacocoTestReport.csv
+          badges-directory: .github/badges
           coverage-badge-filename: schema-coverage.svg
           branches-badge-filename: schema-branches.svg
 
@@ -69,7 +75,7 @@ jobs:
           chmod +x gradlew
           ./gradlew clean test jacocoTestReport
           
-      - name: Verify JaCoCo Report
+      - name: Verify API JaCoCo Report
         run: |
           echo "Checking JaCoCo report existence..."
           ls -la build/reports/jacoco/test/ || echo "JaCoCo directory not found"
