@@ -58,9 +58,9 @@ jobs:
   build-api:
     runs-on: ubuntu-latest
     needs: build-schema
-    defaults:
-      run:
-        working-directory: ./drift-api
+#    defaults:
+#      run:
+        #working-directory: ./drift-api
 
     steps:
       - uses: actions/checkout@v4
@@ -72,8 +72,7 @@ jobs:
 
       - name: Build and Test API
         run: |
-          chmod +x gradlew
-          ./gradlew clean test jacocoTestReport
+          ./gradlew :drift-api:clean :drift-api:test :drift-api:jacocoTestReport
           
       - name: Verify API JaCoCo Report
         run: |
