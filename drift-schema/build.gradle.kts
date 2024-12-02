@@ -24,7 +24,7 @@ java {
 
 dependencies {
     implementation("org.apache.avro:avro:1.12.0")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
     implementation(kotlin("stdlib-jdk8"))
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.0.21")
