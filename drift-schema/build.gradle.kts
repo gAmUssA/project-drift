@@ -4,7 +4,7 @@ plugins {
     id("com.github.davidmc24.gradle.plugin.avro") version "1.9.1"
     id("maven-publish")
     id("idea")
-    kotlin("jvm") version "2.0.21"
+    kotlin("jvm") version "2.1.0"
     jacoco
 }
 
@@ -27,7 +27,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.1")
     implementation(kotlin("stdlib-jdk8"))
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.0.21")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.1.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("com.willowtreeapps.assertk:assertk:0.28.1")
